@@ -9,10 +9,11 @@
 var http = require('http');
 var https = require('https');
 var url = require('url');
-var config = require('./config');
+var config = require('./lib/config');
 var fs = require('fs');
 var _data = require('./lib/data')
-
+var handlers = require('./lib/handlers');
+var helpers = require('./lib/helpers');
 // only  a test 
 // _data.create('test','newFile',{'name':'pavan'},function(err){
 // 	console.log('error message ',err);
@@ -91,19 +92,22 @@ var unifiedServer = function(req,res){
 	})
 	req.on('end',function(){
 		buffer += decoder.end();
+		console.log('buffer', buffer);
 		var chooseHandler = typeof(router[trimmedPath]) !== 'undefined' ? router[trimmedPath] : handlers.notFound;
 		var data = {
+			'queryStringObject': queryStringObject,
 			'trimmedPath': trimmedPath,
 			'method': method,
-			'headers': headers
+			'headers': headers,
+			'payload': helpers.parseJsonToObject(buffer)
 		}
 		chooseHandler(data,function(statusCode, payLoad){
 			statusCode = typeof(statusCode) == 'number' ? statusCode : 200;
 			payLoad = typeof(payLoad) == 'object' ? payLoad : {};
 			var payLoadString = JSON.stringify(payLoad);
-			res.setHeader('content-type','application/json')
+			res.setHeader('content-type','application/json');
 			res.writeHead(statusCode);
-			res.end(payLoadString)
+			res.end(payLoadString);
 		})
 		
 
@@ -122,19 +126,22 @@ var unifiedServer = function(req,res){
 
 }
 
+// 
+// // define all handlers
+// var handlers = {};
 
-// define all handlers
-var handlers = {};
+//  handlers.sample = function(data,callback){
+//  	callback(200,{'name': 'sample handler'})
+//  }
 
- handlers.sample = function(data,callback){
- 	callback(200,{'name': 'sample handler'})
- }
-
- handlers.notFound = function(data,callback){
- 	callback(404);
- }
+//  handlers.notFound = function(data,callback){
+//  	callback(404);
+//  }
 
 // define the request router 
 var router = {
-	'sample': handlers.sample
+	'sample': handlers.sample,
+	'users': handlers.users,
+	'tokens': handlers.tokens
 }
+
