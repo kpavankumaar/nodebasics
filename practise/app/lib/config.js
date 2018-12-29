@@ -11,15 +11,26 @@ environments.staging ={
 	'httpPort': 3000,
 	'httpsPort': 3001,
 	'envName': 'staging',
-	'hashingSecret': 'thisIsASecret'
+	'hashingSecret': 'thisIsASecret',
+	'maxChecks': 5,
+	'twilio': {
+		'accountSid': 'AC9ccd184234dd47567f081f01411c6d77',
+		'authToken': '33a504a5b1c5a8f44b88d29f33c478c8',
+		'fromPhone': '+919666698000'
+	}
 }
 // Production environment
 environments.production ={
 	'httpPort': 5000,
 	'httpsPort': 5001,
 	'envName': 'production',
-	'hashingSecret': 'thisIsAlsoASecret'
-
+	'hashingSecret': 'thisIsAlsoASecret',
+	'maxChecks': 5,
+	'twilio': {
+		'accountSid': '',
+		'authToken': '',
+		'fromPhone': ''
+	}
 }
 
 // Determine which environment was passed as a command-line argument
