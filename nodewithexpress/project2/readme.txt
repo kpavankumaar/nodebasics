@@ -15,3 +15,7 @@ http://example.com/api/products/123 GET
 http://example.com/api/products POST  Unsafe operation
 http://example.com/api/products PUT 
 http://example.com/api/products DELETE 
+
+
+npm install body-parser 
+as req.body in post will return undefined . we need to install body-parser which will read the data recieved and extends the express features to recieve the value .
