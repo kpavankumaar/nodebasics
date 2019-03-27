@@ -1,0 +1,179 @@
+Mongo db
+Relational database (SQL) 			Document Database (No Sql)
+====================================================
+Server							Server
+Database 						Database
+Tables 							Collections
+Row 							Document
+Columns							Field
+
+
+Mongo db saves data in Object format 
+Document is a javascript  Object 
+{
+	id: 1 , 
+	brand: ’nokia' 
+},
+{
+	id: 2 , 
+	brand: ’samsung’,
+	orders: [{date: 1/1/2000, qty:2},{date: 1/1/2000, qty:1},{date: 1/1/2000, qty:4}],
+	reviews: [{},{},{}]
+}
+
+If you have more than one object we call it as Collections
+And how do we save data in relational world
+
+Relational database 
+=============================
+Id 	brand 	model 	price
+1 	nokia  	s7 		3000
+
+
+Orders
+===============================
+productId 	Date 		Qty
+1 			1/1/2008 		2
+1 			1/1/2008 		1
+1 			1/1/2008 		4
+1 			1/1/2008 		2
+
+Specifications
+===============================
+productId  RAM
+
+
+Reviews 
+=============================
+productId 
+
+
+to fetch one product information we have to join these many tables 
+
+
+
+
+
+
+
+Another thing is in any programming language we deal with objects we dont deal with rows and columns 
+
+so object from java or any programming language has to transformed into tables 
+and while retrieving , you will retrieve the rows and columns and convert that into an object .
+In case of mongodb we retrieve the document and use it . and there is no need for transformation 
+
+running mongo server in the background
+to start mongo db server in windows 
+command for cli is 
+
+	-- net start mongodb 
+to stop mongo db server in windows 
+	-- net stop mongodb
+
+
+
+
+
+mongodb basic introduction 
+to communicate between node and db 
+we need to have driver 
+
+so we install mongoose
+
+documents can have any key value pairs and  to enforce certain structure at the application level instead of database level
+
+if you know what is hibernate in java . Mongoose is similar to hibernate 
+Hibernate is ORM 
+you have java Object, Relational database table, and you are Mapping it 
+
+Here we have Object Document Mapper (Object is a javascript Object, Document here is a object in mongodb,and Mappper );
+Mongoose is called ODM
+
+using mongoose is simple -> npm install mongoose
+
+let mongoose = require('mongoose');
+
+mongoose.connect("mongodb://localhost:27017", () => console.log("db connected"));
+
+"mongodb://localhost:27017" -- along with this information you may have to give username and password for cloud
+27017 is the default port 
+
+without the port number also it will work .
+mongoose.connect("mongodb://localhost/dl-products", () => console.log("db connected"));
+
+
+this is only to test for creating the database on the fly as dl-products collection will be created if it already doesnot exist 
+// testing
+In Robo3t 
+commands -> 
+
+	show collections 
+	db.movies.insert({name :'god father',rating:9.2})
+
+
+movies database is created 
+mention the port number 
+dl-products -> name of the database doesnot matter if db exists or not 
+
+and when we say "use db " if the database doesnot exist database is created
+
+--------------------------------------------------
+now in the project structure 
+create directory named models 
+in models directory -> create product.model.js
+
+in index.js 
+const mongoose = require('mongoose');
+module.exports = mongoose.model("product", {
+	brand:String,
+	model:String,
+	price:Number,
+	inStock:boolean
+
+})
+
+// first parameter is name of the model  and second parameter is the structure 
+
+ brand:String,
+	model:String,
+	price:Number,
+	inStock:boolean
+
+only these above fields will be saved in database and if we send more fields they are all discarded 
+
+
+now import the product.model into middleware function in our project we import this into product.ctrl
+
+const product = require('product.model');
+const productCtrl = {
+	get : (req,res)=>{
+		// asyncronous operation
+		product.find(function(products,err){
+ 			res.status(200);
+ 			res.json(products);
+ 		}) 
+ 	},
+};
+
+
+product.find() // this statement is enough to search a collection as we are connection through mongoose.connect() to a database collections
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
