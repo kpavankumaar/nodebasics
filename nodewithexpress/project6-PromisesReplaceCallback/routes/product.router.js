@@ -8,11 +8,11 @@ var productCtrl = require('../controllers/product.ctrl')
 // router.post('/products', productCtrl.save);
 // router.delete('/products/:id', productCtrl.delete);
 // domain.com/products
-router.get('', productCtrl.get);
+router.get('/:pageIndex/:pageSize', productCtrl.get);
+router.get('/', productCtrl.get);
 router.get('/:id', productCtrl.getById);
 router.post('', productCtrl.save);
 router.delete('/:id', productCtrl.delete);
 router.put('/:id',productCtrl.update);
 router.patch('/:id', productCtrl.patch);
-    
 module.exports = router;
