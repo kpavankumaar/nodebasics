@@ -4,15 +4,15 @@ const Product  = require('../models/product.model'); // Product is a model refer
 var productCtrl = { 
     get: function(req, res){
         console.log('get method');
-        let pageIndex =  0
-        if (req.params.pageIndex) {
-            pageIndex = +req.params.pageIndex
-        }
+        let pageIndex = +req.params.pageIndex || 0;
+        // if (req.params.pageIndex) {
+        //     pageIndex = +req.params.pageIndex
+        // }
         
-        let pageSize  = 10
-        if (req.params.pageSize) {
-            pageSize = +req.params.pageSize;     
-        }
+        let pageSize = +req.params.pageSize || 10;
+        // if (req.params.pageSize) {
+        //     pageSize = +req.params.pageSize;     
+        // }
        
         // meta data for consumer 
         // here both product.count and product.find are both going to run parallely asyncronously but we need to that sequntially
@@ -123,25 +123,25 @@ var productCtrl = {
                 price:req.body.price,
                 inStock: req.body.inStock
             }
-        },function(err){
-            if(!err){
-                res.status(204);
-                res.send()
-            }else{
-                res.status(500);
-                res.send('Internal server error');
-            }
-            
+        })
+        .exec()
+        .then(function(){
+            res.status(204);
+            res.send()
+        })
+        .catch(function(err){
+            res.status(500);
+            res.send('Internal server error');
         })
     },
-    patch:function(req,res){    
+    patch:function(req,res){   
+        console.log('patch');
         let id = req.params.id;
-        delete req.body.id
+        delete req.body.id;
         Product.findById(id,function(err, product){
             if(product){
                 for (const key in req.body) {
                    product[key] = req.body[key];
-
                 }
                 Product.findByIdAndUpdate( id, product, function(err){
                     if(!err){
