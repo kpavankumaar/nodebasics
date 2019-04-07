@@ -28,11 +28,12 @@ class UserCtrl{
         let result = bcrypt.compareSync(req.body.password, user.password)
         console.log(result);
         if(result){
-            var token = jwt.sign({},"secret")
+            var token = jwt.sign({username: req.body.username,password: req.body.password},"secret")
             let response = {
                 username: req.body.userName,
                 token:token
             }
+            
             res.status(200);
             res.json(response);
         }else{

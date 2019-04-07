@@ -1,6 +1,6 @@
 var express = require('express');
 var app = express();
-
+var jwt = require('jsonwebtoken');
 var productCtrl = require('./controllers/product.ctrl');
 var defaultRouter = require('./routes/default.router');
 var productRouter = require('./routes/product.router');
@@ -19,6 +19,15 @@ app.use(bodyParser.json());
 app.use('/',defaultRouter);
 
 // middleware
+
+function tokenAuth(req,res, next){
+    let token = req.headers['authorization']
+    var result = jwt.verify(token,"secret");
+    console.log(result);
+    next();
+}
+
+app.use(tokenAuth);
 app.use('/api/users', userRouter);
 // basic auth
 // app.use(middlewares.authenticate);
