@@ -194,6 +194,7 @@ and in register method hash the password that you get as payload
 
 --------------------------------------------------------------
 now authentication 
+for authentication purpose we are not using the database but we use 
 user.router.js
 const router  = express.Router();
 router.post('/register',userCtrl.register)
@@ -211,6 +212,7 @@ result value will be either true or false
 if it is successfull we have send the token id for the client 
 got search for JSON web token in google
 npm i jsonwebtoken
+
 
 
 

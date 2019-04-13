@@ -2,9 +2,10 @@ var express = require('express');
 var app = express();
 var jwt = require('jsonwebtoken');
 var productCtrl = require('./controllers/product.ctrl');
-var defaultRouter = require('./routes/default.router');
-var productRouter = require('./routes/product.router');
-var userRouter = require('./routes/user.router');
+const defaultRouter = require('./routes/default.router');
+const productRouter = require('./routes/product.router');
+const userRouter = require('./routes/user.router');
+const reviewRouter = require('./routes/review.router');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const middlewares = require('./middleware')
@@ -22,12 +23,15 @@ app.use('/',defaultRouter);
 
 
 
-app.use(middlewares.tokenAuth);
+// app.use(middlewares.tokenAuth);
+
+
 app.use('/api/users', userRouter);
 // basic auth
 // app.use(middlewares.authenticate);
 // private 
 app.use('/api/products',productRouter);
+app.use('/api/reviews',reviewRouter)
 
 app.listen(3000,function(){
     console.log('we are listening to port', 3000 );
