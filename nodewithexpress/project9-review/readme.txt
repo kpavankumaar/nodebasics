@@ -123,4 +123,65 @@ then load reviews when the request is made for a specific productId
 
 > new topic 
 Joining the collections and reviewing the data is also possible 
+just make another review call from review.svc.js
 
+// creating a code snippet with visual studio code 
+
+go to preferences in vs code 
+click on "use snippets"
+ and search for javascript.json
+
+example 1 
+"cls":{
+		"prefix": "cls",
+		"body":[
+			"class  className {",
+				"",
+				"get(){",
+				"}",
+				"",
+			"}",
+		
+		],
+		"description": "snippet to create a Class"
+	}
+
+example2 :
+"cls":{
+    	"prefix": "cls",
+		"body":[
+			"class  $1 {",
+				"",
+				"get(){",
+				"}",
+				"",
+			"}",
+		
+		],
+		"description": "snippet to create a Class"
+	
+}
+
+
+in the above snippet helps me in placing the cursor where classname is defined 
+
+// setting up account for mlab 
+go for sandbox  not available this was not available for production version
+
+mlab has been brought by  new website https://cloud.mongodb.com . now it mongodb atlas 
+
+
+
+
+
+
+open robo 3t --
+https://docs.atlas.mongodb.com/connect-to-cluster/#connect-to-a-cluster
+
+
+the methodology used is called domain driven development
+// DDD - Product is domain model , they will create product model . and this product model will create a database structure 
+// Database Driven- 5 year or 10 years ago we use to have database driven where we use to create database and then we write code  
+
+Domain model are easy to understand if developer looks at the productmodel ,review model , he will understand things easily 
+most of the application are build using Domain driven development

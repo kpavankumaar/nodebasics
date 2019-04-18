@@ -9,10 +9,22 @@ const reviewRouter = require('./routes/review.router');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const middlewares = require('./middleware')
+const config = require('./config')
 
 
-mongoose.connect('mongodb://localhost:27017/nbits-products',()=>{
-    console.log('mongodb');
+
+// const MongoClient = require('mongodb').MongoClient;
+// const uri = "mongodb+srv://admin:admin@cluster0-h9l5j.mongodb.net/test?retryWrites=true";
+// const client = new MongoClient(uri, { useNewUrlParser: true });
+// client.connect(err => {
+//     const collection = client.db("nbitsdb").collection("products");
+//     console.log(collection.find({}));
+//     // perform actions on the collection object
+//     client.close();
+// });
+  
+mongoose.connect(config.conStr, {dbName:'nbitsdb'},(err)=>{
+    console.log('error ', err);
 });
 
 

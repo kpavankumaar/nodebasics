@@ -1,9 +1,11 @@
 
 const productSvc = require('../services/product.svc');
+const reviewSvc = require('../services/review.svc');
 const Review = require('../models/review.model');
 
 var productCtrl = { 
     get: async function(req, res){
+        
         let pageIndex = +req.params.pageIndex || 0;
         
         let pageSize = +req.params.pageSize || 10;
@@ -12,16 +14,18 @@ var productCtrl = {
         // console.log(req.query.sort) // checking weather we have req.sort method to run he tests 
         // meta data for consumer 
         // here both product.count and product.find are both going to run parallely asyncronously but we need to that sequntially
-        let cnt = await productSvc.count();
+        console.log("productCtrl statement before productData");
+        // let cnt = await productSvc.count();
         let productData = await productSvc.get(pageIndex,pageSize,sort, direction);
+        console.log("productCtrl statement after productData");
             try{
-                let totalPages = Math.ceil(cnt/pageSize);
+                // let totalPages = Math.ceil(cnt/pageSize);
                 let metaData ={
-                    count:cnt,
-                    // totalPages:Math.ceil(cnt/pageSize),
-                    totalPages: totalPages,
-                    hasPrevious: pageIndex > 0 ,
-                    hasNext: pageIndex < totalPages-1
+                    // count:cnt,
+                    // // totalPages:Math.ceil(cnt/pageSize),
+                    // totalPages: totalPages,
+                    // hasPrevious: pageIndex > 0 ,
+                    // hasNext: pageIndex < totalPages-1
                 };
                     
                 var response = {
@@ -31,7 +35,7 @@ var productCtrl = {
                 res.status(200);
                 res.json(response);
             }
-            catch{
+            catch(err){
                 res.status(500);
                 res.send('Internal server error');
             }
@@ -65,16 +69,12 @@ var productCtrl = {
             var product = await productSvc.getProductById(id);
 
             console.log(product);
-            Review.find({productId:id},{_id:0,__v:0})
-            .exec()
-            .then(function(reviews){
-                // mongoose model - product is immutable means you cannot add or remove properties from it 
-                let jsonProduct = product.toJSON(); // serialize this then it will become normal object
-                jsonProduct.reviews = reviews;
-                res.status(200).json(jsonProduct);
-                
-                })
-
+            var reviews = await reviewSvc.get(id);
+            console.log(reviews);
+            // mongoose model - product is immutable means you cannot add or remove properties from it 
+            let jsonProduct = product.toJSON(); // serialize this then it will become normal object
+            jsonProduct.reviews = reviews;
+            res.status(200).json(jsonProduct);
 
 
        } catch (error) {
@@ -88,6 +88,7 @@ var productCtrl = {
     },
     save:async function(req, res){
         try{
+            console.log('save method')
             var savedPrduct = await productSvc.save(req.body);
             res.status(201)
             res.json(savedPrduct);
