@@ -185,3 +185,33 @@ the methodology used is called domain driven development
 
 Domain model are easy to understand if developer looks at the productmodel ,review model , he will understand things easily 
 most of the application are build using Domain driven development
+
+
+Deployment-- of application 
+
+the port available on my machine may not be available on the server 
+so server now a days they give you an environment varaible to run this 
+process.env.PORT - process is global object available in nodejs , env gives you  environmental variables
+
+what are environmental variables - 
+windows env variables can be configured 
+similarly we have environment variables are needed for this .every operating system has them 
+cloud hosting environment may have PORT environment variable to be some value 
+like PORT 5000 
+
+
+
+1. create const PORT its value will be from "process.env.PORT " 
+2 . Package.json file is very very crucial file for deployment
+make sure you have 
+    a. main :"index.js"
+    b. "scripts":{"start": "node index.js"}
+    c. add "engines": {
+        "node": "version number"
+    }
+
+c point will tell the hosting provider that we need this version of node thought it is optional 
+what happens if you mention what is needed your code will not break out 
+
+
+we will deploy it from github not from heroku 
